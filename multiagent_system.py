@@ -1,7 +1,6 @@
 from typing import Any
 from thespian.actors import *
 from messages import MessageType
-import random
 
 COURIER_PRICES = [13.5, 15.12, 9, 12, 11]
 
@@ -10,9 +9,6 @@ class OrderActor(Actor):
         super().__init__()
         self.courier_prices = {}
         self.distance = None
-    
-    def set_distance(self, distance_km: float):
-        self.distance = distance_km
         
     def receiveMessage(self, msg: tuple[MessageType, Any], sender: ActorAddress):
         msg_type, msg_data = msg
