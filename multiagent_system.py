@@ -18,8 +18,8 @@ class OrderActor(Actor):
             case MessageType.Address:
                 if self.distance is None:
                     raise Exception("My distance is None")
-                self.log(f"Send to {msg[1]} my distance")
-                self.send(msg[1], (MessageType.Distance, self.distance))
+                self.log(f"Send to {msg_data} my distance")
+                self.send(msg_data, (MessageType.Distance, self.distance))
                 
             case MessageType.Price:
                 self.courier_prices[sender.actorAddressString] = (msg_data, sender)
