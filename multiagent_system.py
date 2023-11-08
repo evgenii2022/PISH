@@ -3,7 +3,6 @@ from thespian.actors import *
 from messages import MessageType
 import random
 
-N_COURIERS = 5
 COURIER_PRICES = [13.5, 15.12, 9, 12, 11]
 
 class OrderActor(Actor):
@@ -30,7 +29,7 @@ class OrderActor(Actor):
                 self.courier_prices[sender.actorAddressString] = (msg_data, sender)
                 self.log(f"Get the price {msg_data} from {sender}")
                 
-                if len(self.courier_prices) == N_COURIERS:
+                if len(self.courier_prices) == len(COURIER_PRICES):
                     chosen = self.choose_courier()
                     self.send(chosen, (MessageType.Accept, ''))
                     self.log(f"I choose {chosen}")
@@ -92,10 +91,10 @@ def main():
     actor_system.tell(order, (MessageType.Distance, 10))
     
     couriers = []
-    for i in range(N_COURIERS):
+    for courier_price in COURIER_PRICES:
         courier = actor_system.createActor(CourierActor)
         couriers.append(courier)
-        actor_system.tell(courier, (MessageType.PricePerKm, COURIER_PRICES[i]))
+        actor_system.tell(courier, (MessageType.PricePerKm, courier_price))
         actor_system.tell(order, (MessageType.Address, courier))
     
 if __name__ == "__main__":
